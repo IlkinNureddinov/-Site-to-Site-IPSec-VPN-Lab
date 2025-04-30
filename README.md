@@ -18,40 +18,40 @@ This lab demonstrates a secure **Site-to-Site IPSec VPN** tunnel between two Cis
 ### 🔹 R1 (Cisco 1921)
 
 ## hostname R1
-!
+## !
 interface GigabitEthernet0/0
  ip address 192.168.10.1 255.255.255.0
  no shutdown
-!
+## !
 interface GigabitEthernet0/1
  ip address 10.0.0.1 255.255.255.252
  no shutdown
-!
+## !
 ip access-list extended VPN-TRAFFIC
  permit ip 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255
-!
+## !
 crypto isakmp policy 10
  encryption aes
  hash sha
  authentication pre-share
  group 2
  lifetime 86400
-!
+## !
 crypto isakmp key VPNKEY address 10.0.0.2
-!
+## !
 crypto ipsec transform-set VPN-SET esp-aes esp-sha-hmac
  mode tunnel
-!
+## !
 crypto map VPNMAP 10 ipsec-isakmp 
  set peer 10.0.0.2
  set transform-set VPN-SET
  match address VPN-TRAFFIC
-!
+## !
 interface GigabitEthernet0/1
  crypto map VPNMAP
-!
+## !
 ip route 192.168.20.0 255.255.255.0 10.0.0.2
-!
+
 
 
 ## hostname R2
@@ -59,21 +59,21 @@ ip route 192.168.20.0 255.255.255.0 10.0.0.2
 interface GigabitEthernet0/0
  ip address 192.168.20.1 255.255.255.0
  no shutdown
-!
+## !
 interface GigabitEthernet0/1
  ip address 10.0.0.2 255.255.255.252
  no shutdown
-!
+## !
 ip access-list extended VPN-TRAFFIC
  permit ip 192.168.20.0 0.0.0.255 192.168.10.0 0.0.0.255
-!
+## !
 crypto isakmp policy 10
  encryption aes
  hash sha
  authentication pre-share
  group 2
  lifetime 86400
-!
+## !
 crypto isakmp key VPNKEY address 10.0.0.1
 !
 crypto ipsec transform-set VPN-SET esp-aes esp-sha-hmac
