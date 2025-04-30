@@ -75,25 +75,23 @@ crypto isakmp policy 10
  lifetime 86400
 ## !
 crypto isakmp key VPNKEY address 10.0.0.1
-!
+## !
 crypto ipsec transform-set VPN-SET esp-aes esp-sha-hmac
  mode tunnel
-!
+## !
 crypto map VPNMAP 10 ipsec-isakmp 
  set peer 10.0.0.1
  set transform-set VPN-SET
  match address VPN-TRAFFIC
-!
+## !
 interface GigabitEthernet0/1
  crypto map VPNMAP
-!
+## !
 ip route 192.168.10.0 255.255.255.0 10.0.0.1
-!
+## !
  📌 Notes
 VPN traffic is encrypted using AES with SHA authentication
-
 NAT is not configured in this lab; traffic is routed directly
-
 This configuration is suitable for lab simulations and portfolio projects 
 
 ## ✅ Status:
@@ -108,7 +106,6 @@ The tunnel was not triggered (inactive) until we manually initiated interesting 
 ✅ Resolution
 After executing the following command:
 
-
  R1# ping 192.168.20.1 source 192.168.10.1
 
 The VPN tunnel was established, and the show crypto isakmp sa and show crypto ipsec sa outputs confirmed the tunnel was ACTIVE (QM_IDLE).
@@ -122,7 +119,8 @@ When such traffic is detected, the ISAKMP Phase 1 and then IPSec Phase 2 negotia
 
 📌 Takeaway
 Always remember:
-
 "In policy-based VPNs, no interesting traffic = no tunnel."
-
 This is a key behavior to know when troubleshooting real-world VPN issues.
+
+## Contact 
+https://github.com/IlkinNureddinov 
